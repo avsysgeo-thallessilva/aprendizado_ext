@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./resources/css/ext-all.css" />
+    <link rel="stylesheet" href="./resources/css/xtheme-gray.css" />
+  </head>
+  <body>
+    <script src="adapter/ext/ext-base.js"></script>
+    <script src="ext-all-debug.js"></script>
+    <script>
+      Ext.onReady(function () {
+        const store = new Ext.data.Store({
+          url: "http://restapi.adequateshop.com/api/Traveler?page=6",
+          reader: new Ext.data.XmlReader({ record: "Travelerinformation" }, [
+            { name: "id" },
+            { name: "name" },
+            { name: "email" },
+            { name: "adderes" },
+            { name: "createdat" },
+          ]),
+        });
+        store.load();
+        const modal = new Ext.Window({
+          title: "Modal uau",
+          width: 600,
+          height: 400,
+          resizable: true,
+          tbar: [
+            {
+              text: "me de papai",
+              handler: function () {
+                Ext.MessageBox.alert("lobo pidao", "AUUUU");
+              },
+            },
+          ],
+          items: [],
+          buttons: [{ text: "Salvar" }, { text: "SAI PORRA" }],
+        });
+
+        const grid = new Ext.grid.GridPanel({
+          title: "tabelinha do mau uau",
+          store: store,
+          columns: [
+            { header: "ID", dataIndex: "id", sortable: true },
+            { header: "NOME", dataIndex: "name", sortable: true },
+            { header: "EMAIL", dataIndex: "email", sortable: true },
+            { header: "ENDEREÇO", dataIndex: "adderes", sortable: true },
+            { header: "NNSEIOQ", dataIndex: "createdat", sortable: true },
+          ],
+          width: 600,
+          height: 400,
+          renderTo: Ext.getBody(),
+          listeners: {
+            celldblclick: function () {
+              const itemselecionado = grid.getSelectionModel().getSelected();
+
+              const nome = itemselecionado.get("name");
+              modal.show();
+            },
+          },
+        });
+        grid.show();
+      });
+    </script>
+  </body>
+</html>
