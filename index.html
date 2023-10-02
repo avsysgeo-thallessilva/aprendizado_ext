@@ -23,6 +23,9 @@
           ]),
         });
         store.load();
+
+        let selectedRecord = null;
+
         const modal = new Ext.Window({
           title: "Modal uau",
           width: 600,
@@ -30,9 +33,17 @@
           resizable: true,
           tbar: [
             {
-              text: "me de papai",
+              text: "Editar",
               handler: function () {
-                Ext.MessageBox.alert("lobo pidao", "AUUUU");
+                if (selectedRecord) {
+                }
+              },
+            },
+            {
+              text: "Excluir",
+              handler: function () {
+                if (selectedRecord) {
+                }
               },
             },
           ],
@@ -54,10 +65,16 @@
           height: 400,
           renderTo: Ext.getBody(),
           listeners: {
-            celldblclick: function () {
-              const itemselecionado = grid.getSelectionModel().getSelected();
+            celldblclick: function (grid, rowIndex, columnIndex) {
+              selectedRecord = store.getAt(rowIndex);
 
-              const nome = itemselecionado.get("name");
+              modal.removeAll();
+
+              modal.add(
+                new Ext.form.Label({
+                  text: "Nome: " + selectedRecord.get("name"),
+                })
+              );
               modal.show();
             },
           },
